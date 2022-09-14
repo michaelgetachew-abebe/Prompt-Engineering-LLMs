@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import Normalizer, MinMaxScaler, StandardScaler
-from logger import Logger
+from log_creator import log
 import sys
 from sklearn.preprocessing import LabelEncoder
 from gensim.parsing.preprocessing import remove_stopwords
@@ -12,7 +12,7 @@ class DataCleaner:
         """Initilize class."""
         try:
             pass
-            self.logger = Logger("data_cleaner.log").get_app_logger()
+            self.logger = log("data_cleaner.log").get_app_logger()
             self.logger.info(
                 'Successfully initialized data cleaner Object')
         except Exception:
