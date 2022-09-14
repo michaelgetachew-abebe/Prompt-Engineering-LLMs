@@ -1,3 +1,4 @@
+from cgitb import handler
 import os
 import logging
 # A Function to create and save logs in the required format
@@ -17,4 +18,12 @@ def log(path, file):
     logging.basicConfig(level=logging.INFO, format=console_logging_format)
     logger = logging.getLogger()
 
-    
+    # Create a file handler for the output file
+    handler = logging.FileHandler(log_file)
+
+    # Create Logging level
+    handler.setLevel(logging.INFO)
+
+    # Create a logging format
+    formatter = logging.Formatter(file_logging_format)
+    handler.setFormatter(formatter)
