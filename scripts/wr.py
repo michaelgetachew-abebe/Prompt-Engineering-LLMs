@@ -10,7 +10,7 @@ class wr:
             data_url = dvc.api.get_url(path=path, repo=repo, rev=version)
             data_url = str(data_url)[6:]
             with open(data_url, 'r') as f:
-                data = json.loads(f.read())
+                data = txt.loads(f.read())
             log.info(f"{path} with version {version} Loaded")
         except Exception as e:
             log.error(e)
