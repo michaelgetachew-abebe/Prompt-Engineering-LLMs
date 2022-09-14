@@ -24,21 +24,21 @@ In-context learning, popularized by the team behind the GPT-3 LLM, brought a new
 
 ## Objectives
 The analysis objective of this project are divided into 4 sub-objectives that overall guides the workflow
--Setting up environment to use LLMs APIs 
--Comparing word-embedding based clustering with prompt based classification 
--Setting up repeatable ML framework for prompt engineering - Reporting and Dashboard
+- Setting up environment to use LLMs APIs 
+- Comparing word-embedding based clustering with prompt based classification 
+- Setting up repeatable ML framework for prompt engineering - Reporting and Dashboard
 
 ## Data
 The following is the description of the components of the [Client-data]
--**Domain** - the base URL or a reference to the source these item comes from 
--**Title** - title of the item - the content of the item
--**Description** - the content of the item
--**Body** - the content of the item
--**Link** - URL to the item source (it may not functional anymore sometime)
--**Timestamp** - timestamp that this item was collected at
--**Analyst_Average_Score** -  target variable - the score to be estimated 
--**Analyst_Rank** - score as rank
--**Reference_Final_Score** - Not relevant for now - it is a transformed quantity
+- **Domain** - the base URL or a reference to the source these item comes from 
+- **Title** - title of the item - the content of the item
+- **Description** - the content of the item
+- **Body** - the content of the item
+- **Link** - URL to the item source (it may not functional anymore sometime)
+- **Timestamp** - timestamp that this item was collected at
+- **Analyst_Average_Score** -  target variable - the score to be estimated 
+- **Analyst_Rank** - score as rank
+- **Reference_Final_Score** - Not relevant for now - it is a transformed quantity
 
 ## Requirements
 The project requires the following:
