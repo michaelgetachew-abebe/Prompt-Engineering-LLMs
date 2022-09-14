@@ -27,3 +27,5 @@ def log(path, file):
     # Create a logging format
     formatter = logging.Formatter(file_logging_format)
     handler.setFormatter(formatter)
+
+    return logger
