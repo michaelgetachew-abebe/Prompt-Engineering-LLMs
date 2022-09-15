@@ -94,18 +94,6 @@ class DataCleaner:
 
         return round(totalMising / totalCells * 100, 2)
 
-    def get_numerical_columns(self, df: pd.DataFrame) -> list:
-        """
-        get numerical columns
-        """
-        return df.select_dtypes(include=['number']).columns.to_list()
-
-    def get_categorical_columns(self, df: pd.DataFrame) -> list:
-        """
-        get categorical columns
-        """
-        return  df.select_dtypes(include=['object','datetime64[ns]']).columns.to_list()
-
     def percent_missing_column(self, df: pd.DataFrame, columns:list) -> pd.DataFrame:
         """
         calculate the percentage of missing values for the specified column
@@ -121,74 +109,7 @@ class DataCleaner:
                 rows.append([col,"Not found","Not found","Not found","Not found"])
         return pd.DataFrame(data=rows,columns=["Col Name","Total","Missing","%","Data Type"]).sort_values(by="%",ascending=False)
 
-            
 
-    
-    def fill_missing_values_categorical(self, df: pd.DataFrame, method: str,columns:list=[]) -> pd.DataFrame:
-        """
-        fill missing values with specified method
-        """
-
-        if len(columns)==0:
-            columns = df.select_dtypes(include=['object','datetime64[ns]']).columns
-
-
-        if method == "ffill":
-
-            for col in columns:
-                df[col] = df[col].fillna(method='ffill')
-
-            self.logger.info(f'fill missing values using ffill')
-
-            return df
-
-        elif method == "bfill":
-
-            for col in columns:
-                df[col] = df[col].fillna(method='bfill')
-            
-            self.logger.info(f'fill missing values using bfill')
-
-            return df
-
-        elif method == "mode":
-            
-            for col in columns:
-                df[col] = df[col].fillna(df[col].mode()[0])
-            self.logger.info(f'fill missing values using mode')
-
-            return df
-        else:
-            print("Method unknown")
-            self.logger.error(f'failed to fill missing values; method unkown')
-
-            return df
-
-    def fill_missing_values_numeric(self, df: pd.DataFrame, method: str,columns: list =None) -> pd.DataFrame:
-        """
-        fill missing values with specified method
-        """
-        if(columns==None):
-            numeric_columns = self.get_numerical_columns(df)
-        else:
-            numeric_columns=columns
-
-        if method == "mean":
-            for col in numeric_columns:
-                df[col].fillna(df[col].mean(), inplace=True)
-            self.logger.info(f'fill missing values by mean')
-
-
-        elif method == "median":
-            for col in numeric_columns:
-                df[col].fillna(df[col].median(), inplace=True)
-            self.logger.info(f'fill missing values by median')
-
-        else:
-            print("Method unknown")
-            self.logger.error(f'failed to fill missing values; method unkown')
-        
-        return df
 
     def remove_nan_categorical(self, df: pd.DataFrame) -> pd.DataFrame:
         """
