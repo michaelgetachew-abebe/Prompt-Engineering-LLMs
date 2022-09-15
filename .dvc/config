@@ -3,3 +3,4 @@
     autostage = true
 ['remote "myremote"']
     url = gdrive://1QgJupyz8K1QPkcCmTlpNBCBir7_ffVJA
+    cohere_key = {"key","93gsHhIEB61vDu0T5qclb2aW97Dmn4Y5uVb0xaL9"}
