@@ -5,7 +5,7 @@ import pandas as pd
 from IPython.display import display
 from config import api_key
 import sys
-warnings.simplefilter('ignore')
+warnings.filterwarnings('ignore')
 
 sys.path.append('../')
 
