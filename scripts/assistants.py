@@ -15,7 +15,7 @@ class assistant:
         """Initilize class."""
         try:
             pass
-            self.logger = log("utility.log").get_app_logger()
+            self.logger = log("assist.log").get_app_logger()
             self.logger.info(
                 'Successfully Initialized Log File for assistants module')
         except Exception:
