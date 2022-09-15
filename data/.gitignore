@@ -3,3 +3,6 @@
 /relations_test.txt
 /Example_news_data.csv
 /cleaned_news.csv
+/testing_news.csv
+/training_news.csv
+/tuner.txt
