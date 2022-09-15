@@ -10,7 +10,7 @@ import sys
 import pickle
 sys.path.append('../')
 
-class Util:
+class assistant:
     def __init__(self) -> None:
         """Initilize class."""
         try:
