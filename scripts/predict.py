@@ -3,18 +3,19 @@ from log_creator import log
 import cohere
 import pandas as pd
 from IPython.display import display
-from config import api_key
+
 import sys
 warnings.filterwarnings('ignore')
 
 sys.path.append('../')
-
+import config
+key = config.cohere_key['key']
 class Predict:
     def __init__(self):
         """Initilize class."""
         try:
             self.logger = log("predict.log").get_app_logger()
-            self.api_key=api_key
+            self.api_key=key
             self.logger.info('initialized predict Object')
         except Exception:
             self.logger.exception('Failed to processor predict Object')
@@ -44,7 +45,7 @@ class Predict:
         response = co.generate(
         model=model,
         prompt=prompt.strip(),
-        max_tokens=4,
+        max_tokens=1,
         temperature=0.9,
         k=0,
         p=0.75,
