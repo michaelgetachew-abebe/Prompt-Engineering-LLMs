@@ -131,75 +131,7 @@ class DataCleaner:
                 rows.append([col,"Not found","Not found","Not found","Not found"])
         return pd.DataFrame(data=rows,columns=["Col Name","Total","Missing","%","Data Type"]).sort_values(by="%",ascending=False)
 
-            
-
-    
-    def fill_missing_values_categorical(self, df: pd.DataFrame, method: str,columns:list=[]) -> pd.DataFrame:
-        """
-        fill missing values with specified method
-        """
-
-        if len(columns)==0:
-            columns = df.select_dtypes(include=['object','datetime64[ns]']).columns
-
-
-        if method == "ffill":
-
-            for col in columns:
-                df[col] = df[col].fillna(method='ffill')
-
-            self.logger.info(f'fill missing values using ffill')
-
-            return df
-
-        elif method == "bfill":
-
-            for col in columns:
-                df[col] = df[col].fillna(method='bfill')
-            
-            self.logger.info(f'fill missing values using bfill')
-
-            return df
-
-        elif method == "mode":
-            
-            for col in columns:
-                df[col] = df[col].fillna(df[col].mode()[0])
-            self.logger.info(f'fill missing values using mode')
-
-            return df
-        else:
-            print("Method unknown")
-            self.logger.error(f'failed to fill missing values; method unkown')
-
-            return df
-
-    def fill_missing_values_numeric(self, df: pd.DataFrame, method: str,columns: list =None) -> pd.DataFrame:
-        """
-        fill missing values with specified method
-        """
-        if(columns==None):
-            numeric_columns = self.get_numerical_columns(df)
-        else:
-            numeric_columns=columns
-
-        if method == "mean":
-            for col in numeric_columns:
-                df[col].fillna(df[col].mean(), inplace=True)
-            self.logger.info(f'fill missing values by mean')
-
-
-        elif method == "median":
-            for col in numeric_columns:
-                df[col].fillna(df[col].median(), inplace=True)
-            self.logger.info(f'fill missing values by median')
-
-        else:
-            print("Method unknown")
-            self.logger.error(f'failed to fill missing values; method unkown')
         
-        return df
-
     def remove_nan_categorical(self, df: pd.DataFrame) -> pd.DataFrame:
         """
         remove columns with nan values for categorical columns
@@ -289,33 +221,41 @@ class DataCleaner:
         return df
 
     def clean_links(self,df:pd.DataFrame,columns:list=[])->pd.DataFrame:
-        if len(columns) == 0:
+        if len(columns) is 0:
             columns=self.get_categorical_columns(df)
         for col in columns:
             try:
-                df[col]=df[col].apply(lambda x:re.sub(r"\S*https?:\S*", "",x))
-                df[col]=df[col].apply(lambda x:re.sub(r"\S*www.\S*", "", x))
-            except:
-                pass
+                df[col]=df[col].apply(lambda x: re.sub(r"\S*https?:\S*", "",str(x)))
+                df[col]=df[col].apply(lambda x:re.sub(r"\S*www.\S*", "", str(x)))
+            except Exception as e:
+                self.logger.error(f"Cannot clean links: on column {col}")
             
         return df
 
     def clean_symbols(self,df:pd.DataFrame,columns:list=[])->pd.DataFrame:
 
-        if len(columns) == 0:
+        if len(columns) is 0:
             columns=self.get_categorical_columns(df)
 
         for col in columns:
-            df[col]=df[col].apply(lambda x:re.sub(r'[^\w]', ' ',x))
+            try:
+                df[col]=df[col].apply(lambda x:re.sub(r'[^\w]', ' ',str(x)))
+            except Exception as e:
+                self.logger.error(f"Cannot clean symbols: {e}")
+            
         return df
 
     def clean_stopwords(self,df:pd.DataFrame,columns:list = []):
          
-        if len(columns) == 0:
+        if len(columns) is 0:
             columns=self.get_categorical_columns(df)
 
         for col in columns:
-            df[col]=df[col].apply(lambda x:remove_stopwords(x))
+            try:
+                df[col]=df[col].apply(lambda x:remove_stopwords(x))
+            except Exception as e:
+                self.logger.error(f"Cannot clean stopwords: {e}")
+            
         return df
 
     def convert_to_lower_case(self,df:pd.DataFrame,columns:list = []):
@@ -342,7 +282,7 @@ class DataCleaner:
                     stemmed_words.append(word)
             return ' '.join(stemmed_words)
 
-        if len(columns) == 0:
+        if len(columns) is 0:
             columns = self.get_categorical_columns(df)
 
         for col in columns:
@@ -369,7 +309,7 @@ class DataCleaner:
                     pass
             return ' '.join(leman_words)
 
-        if len(columns) == 0:
+        if len(columns) is 0:
             columns = self.get_categorical_columns(df)
 
         for col in columns:
@@ -383,4 +323,13 @@ class DataCleaner:
 
         for col in columns:
             df[col] = df[col].apply(lambda x:re.sub(r' +', ' ',x))
+            df[col] = df[col].apply(lambda x:x.strip())
+        return df
+    
+    def drop_duplicated_words(self,df:pd.DataFrame,columns:list=[]):
+        if len(columns) is 0:
+            columns = self.get_categorical_columns(df)
+
+        for col in columns:
+            df[col] = df[col].apply(lambda x:", ".join(set((x).split())))
         return df
