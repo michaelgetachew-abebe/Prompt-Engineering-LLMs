@@ -4,12 +4,14 @@ import cohere
 import pandas as pd
 from IPython.display import display
 import sys
+import os
 warnings.simplefilter('ignore')
 
 sys.path.append('../scripts')
-sys.path.append('../')
-import config
-key = config.cohere_key['key']
+cwd = os.getcwd()
+sys.path.append(f'{cwd}')
+from config import cohere_key
+key = cohere_key['key']
 
 from text_preprocessor import Processor
 
