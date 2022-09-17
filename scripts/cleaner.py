@@ -174,15 +174,10 @@ class DataCleaner:
             columns.remove("Store")
         except:
             pass
-        # columns=["CompetitionDistance","Sales","Customers"]
-
+        
         
         df[columns]=standard_scaler.fit_transform(df[columns])
-            # try:
-            # except:
-            #     print(f"error with {col}")
-            #     pass
-
+            
         return df
         
     
