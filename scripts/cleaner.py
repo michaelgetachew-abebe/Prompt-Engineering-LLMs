@@ -1,17 +1,17 @@
-from cgitb import text
 from turtle import pos
 from typing_extensions import Self
+from log_creator import log
+from sklearn.preprocessing import LabelEncoder
+from gensim.parsing.preprocessing import remove_stopwords
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import Normalizer, MinMaxScaler, StandardScaler
-from log_creator import log
-import sys
-from sklearn.preprocessing import LabelEncoder
-from gensim.parsing.preprocessing import remove_stopwords
 import re
-
+from cgitb import text
 import nltk
 from nltk.stem import WordNetLemmatizer, PorterStemmer
+import sys
+
 
 class DataCleaner:
     def __init__(self) -> None:
@@ -131,7 +131,7 @@ class DataCleaner:
                 rows.append([col,"Not found","Not found","Not found","Not found"])
         return pd.DataFrame(data=rows,columns=["Col Name","Total","Missing","%","Data Type"]).sort_values(by="%",ascending=False)
 
-        
+
     def remove_nan_categorical(self, df: pd.DataFrame) -> pd.DataFrame:
         """
         remove columns with nan values for categorical columns
